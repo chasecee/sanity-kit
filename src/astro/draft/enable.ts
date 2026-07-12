@@ -1,9 +1,16 @@
 import type { APIRoute } from "astro";
 import { validatePreviewUrl } from "@sanity/preview-url-secret";
 import { perspectiveCookieName } from "@sanity/preview-url-secret/constants";
+import {
+  cookieSecureOptions,
+  getIsrBypassToken,
+  PRERENDER_BYPASS_COOKIE,
+} from "./isr-bypass";
 import { getSanityClient } from "./preview";
+
 type CreateEnableRouteOptions = {
   siteUrl: string;
+  isrBypassTokenEnvKey?: string;
 };
 
 function normalizeRedirectPath(rawUrl: string | undefined, siteUrl: string): string {
@@ -21,6 +28,7 @@ function normalizeRedirectPath(rawUrl: string | undefined, siteUrl: string): str
 
 export function createEnableDraftModeRoute({
   siteUrl,
+  isrBypassTokenEnvKey = "ISR_BYPASS_TOKEN",
 }: CreateEnableRouteOptions): APIRoute {
   return async ({ request, cookies, redirect }) => {
     const previewClient = getSanityClient(true);
@@ -30,20 +38,24 @@ export function createEnableDraftModeRoute({
       return new Response("Invalid preview URL", { status: 401 });
     }
 
-    const url = new URL(request.url);
     const target = normalizeRedirectPath(validation.redirectTo, siteUrl);
-    const secure = url.protocol === "https:";
-    const sameSite = secure ? "none" : "lax";
+    const base = cookieSecureOptions(request.url);
     const perspective = validation.studioPreviewPerspective || "drafts";
     const perspectiveValue =
       typeof perspective === "string" ? perspective : JSON.stringify(perspective);
 
     cookies.set(perspectiveCookieName, perspectiveValue, {
-      path: "/",
+      ...base,
       httpOnly: false,
-      sameSite,
-      secure,
     });
+
+    const bypassToken = getIsrBypassToken(isrBypassTokenEnvKey);
+    if (bypassToken) {
+      cookies.set(PRERENDER_BYPASS_COOKIE, bypassToken, {
+        ...base,
+        httpOnly: true,
+      });
+    }
 
     return redirect(target, 302);
   };

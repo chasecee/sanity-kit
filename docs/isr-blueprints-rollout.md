@@ -17,10 +17,13 @@ This runbook standardizes ISR webhook rollout for Astro + Vercel + Sanity projec
 adapter: vercel({
   isr: {
     bypassToken: process.env.ISR_BYPASS_TOKEN,
-    exclude: ["/api/revalidate"],
+    exclude: [/^\/api\/.+/],
   },
 })
 ```
+
+Draft/preview must also set Vercel’s `__prerender_bypass` cookie (same value as `ISR_BYPASS_TOKEN`) when enabling draft mode. `@chasecee/sanity-kit` does this in `createEnableDraftModeRoute` / `disableDraftModeGet`. Without it, a draft render can be written into the ISR cache and served to everyone.
+
 
 `apps/site/src/pages/api/revalidate.ts`:
 

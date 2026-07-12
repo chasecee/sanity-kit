@@ -3,6 +3,7 @@ import {
   perspectiveCookieName,
   urlSearchParamPreviewPathname,
 } from "@sanity/preview-url-secret/constants";
+import { PRERENDER_BYPASS_COOKIE } from "./isr-bypass";
 
 function normalizeRedirectPath(pathname: string | null): string {
   if (!pathname) return "/";
@@ -17,6 +18,7 @@ export const disableDraftModeGet: APIRoute = async ({ request, cookies, redirect
   const target = normalizeRedirectPath(pathFromQuery);
 
   cookies.delete(perspectiveCookieName, { path: "/" });
+  cookies.delete(PRERENDER_BYPASS_COOKIE, { path: "/" });
 
   return redirect(target, 302);
 };

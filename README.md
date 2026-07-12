@@ -101,7 +101,7 @@ export const POST = createIsrRevalidateRoute({
 });
 ```
 
-Pair with Vercel ISR in `astro.config.mjs` (`isr.bypassToken`, `exclude: ["/api/revalidate"]`) and a root `sanity.blueprint.ts` webhook.
+Pair with Vercel ISR in `astro.config.mjs` (`isr.bypassToken`, `exclude: [/^\/api\/.+/]`) and a root `sanity.blueprint.ts` webhook. Draft enable sets `__prerender_bypass` from `ISR_BYPASS_TOKEN` so preview HTML is never written into the ISR cache.
 
 ## Site Wiring (Astro)
 
