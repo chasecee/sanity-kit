@@ -8,7 +8,7 @@ function disableDraftHref(): string {
 
 export default function DisableDraftMode() {
   const isPresentationTool = useIsPresentationTool();
-  if (isPresentationTool !== false) return null;
+  if (isPresentationTool === true) return null;
 
   return (
     <a
