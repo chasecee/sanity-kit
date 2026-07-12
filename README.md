@@ -8,10 +8,17 @@ Shared Sanity Studio and Astro runtime utilities.
 "@chasecee/sanity-kit": "github:chasecee/sanity-kit"
 ```
 
+## Local Development
+
+Consumer dev servers alias `@chasecee/sanity-kit` to this repo when it exists as a sibling checkout, so kit edits hot-reload instantly. No linking or dependency changes needed; `package.json` always keeps the `github:` ref, and Vercel builds (no sibling checkout) use the installed package.
+
+The aliases live in each consumer's `apps/admin/sanity.cli.ts` (vite override) and `apps/site/astro.config.mjs` (vite `resolve.alias`). After pushing kit changes, run `bun sync` here to update consumers' pinned installs.
+
 ## Exports
 
 - `@chasecee/sanity-kit/studio`
 - `@chasecee/sanity-kit/astro`
+- `kitStudioConfig` from `@chasecee/sanity-kit/studio` disables Content Releases by default
 
 ## ISR revalidation
 

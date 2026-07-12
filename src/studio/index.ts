@@ -12,6 +12,7 @@ export {
   resolveProductionUrlAsync,
 } from "./lib/resolveProductionUrl";
 export { setActiveDocument, getActiveDocument, subscribeActiveDocument } from "./lib/activeDocument";
+export { kitStudioConfig } from "./lib/kitStudioConfig";
 export { default as embedSchema } from "./schemas/embed-schema";
 export { default as spotifySchema } from "./schemas/spotify-schema";
 export { default as columnsSchema } from "./schemas/columns-schema";
