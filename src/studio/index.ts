@@ -13,6 +13,8 @@ export {
 } from "./lib/resolveProductionUrl";
 export { setActiveDocument, getActiveDocument, subscribeActiveDocument } from "./lib/activeDocument";
 export { kitStudioConfig } from "./lib/kitStudioConfig";
+export { kitTypegenConfig } from "./lib/kitTypegenConfig";
+export { withIncomingReferences } from "./lib/withIncomingReferences";
 export { default as embedSchema } from "./schemas/embed-schema";
 export { default as spotifySchema } from "./schemas/spotify-schema";
 export { default as columnsSchema } from "./schemas/columns-schema";

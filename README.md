@@ -10,13 +10,14 @@ Shared Sanity Studio and Astro runtime utilities.
 
 ## Local Development
 
-Consumer dev servers alias `@chasecee/sanity-kit` to this repo when it exists as a sibling checkout, so kit edits hot-reload instantly. No linking or dependency changes needed; `package.json` always keeps the `github:` ref, and Vercel builds (no sibling checkout) use the installed package.
+Consumer dev servers alias `@chasecee/sanity-kit` to this repo when it exists as a sibling checkout, so kit edits hot-reload instantly. `package.json` always keeps the `github:` ref; Vercel (no sibling checkout) uses the installed package.
 
-The aliases live in each consumer's `apps/admin/sanity.cli.ts` (vite override) and `apps/site/astro.config.mjs` (vite `resolve.alias`). After pushing kit changes, run `bun sync` here to update consumers' pinned installs.
+The consumer Vite plugin also peer-links `react` / `react-dom` from the app into this repo's `node_modules` (idempotent) so SSR does not load a second React from the kit install. After pushing kit changes, run `bun sync` in each consumer to update the pinned GitHub install.
 
 ## Exports
 
 - `@chasecee/sanity-kit/studio`
+- `@chasecee/sanity-kit/studio/typegen` — CLI-safe `kitTypegenConfig` (no JSX barrel)
 - `@chasecee/sanity-kit/astro`
 - `kitStudioConfig` from `@chasecee/sanity-kit/studio` disables Content Releases by default
 

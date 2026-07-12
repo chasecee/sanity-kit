@@ -11,16 +11,26 @@ export function presentationEditUrl(studioUrl: string, previewUrl: string): stri
   return `${base}/edit?preview=${encodeURIComponent(previewUrl)}`;
 }
 
-export default function DisableDraftMode() {
+export default function DisableDraftMode({ editHref }: { editHref?: string }) {
   const isPresentationTool = useIsPresentationTool();
   if (isPresentationTool === true) return null;
 
   return (
-    <a
-      href={disableDraftHref()}
-      className="ml-3 underline underline-offset-2 hover:no-underline"
-    >
-      Exit draft mode
-    </a>
+    <>
+      {editHref ? (
+        <a
+          href={editHref}
+          className="ml-3 underline underline-offset-2 hover:no-underline"
+        >
+          Edit
+        </a>
+      ) : null}
+      <a
+        href={disableDraftHref()}
+        className="ml-3 underline underline-offset-2 hover:no-underline"
+      >
+        Exit draft mode
+      </a>
+    </>
   );
 }

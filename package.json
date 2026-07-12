@@ -1,6 +1,6 @@
 {
   "name": "@chasecee/sanity-kit",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "files": [
@@ -8,7 +8,9 @@
   ],
   "exports": {
     "./studio": "./src/studio/index.ts",
+    "./studio/typegen": "./src/studio/lib/kitTypegenConfig.ts",
     "./astro": "./src/astro/index.ts",
+    "./astro/tailwind.css": "./src/astro/tailwind.css",
     "./astro/lightbox/galleryLightboxBoot": "./src/astro/lightbox/galleryLightboxBoot.ts",
     "./astro/lightbox/imageGalleryLightbox": "./src/astro/lightbox/imageGalleryLightbox.ts",
     "./package.json": "./package.json"
