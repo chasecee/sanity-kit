@@ -5,7 +5,7 @@ Shared Sanity Studio and Astro runtime utilities.
 ## Install
 
 ```json
-"@chasecee/sanity-kit": "github:chasecee/sanity-kit#v0.2.0"
+"@chasecee/sanity-kit": "github:chasecee/sanity-kit"
 ```
 
 ## Exports
@@ -20,6 +20,8 @@ Shared Sanity Studio and Astro runtime utilities.
 Draft middleware sets `Cache-Control: private, no-store` only in draft mode. Published HTML cache is left to Vercel ISR.
 
 Required site env: `ISR_BYPASS_TOKEN`, `REVALIDATE_SECRET`.
+
+Full rollout and verification checklist: `docs/isr-blueprints-rollout.md`.
 
 ## Recommended Consumer Repo Structure
 
@@ -67,7 +69,7 @@ your-site/
 - Add:
 
 ```json
-"@chasecee/sanity-kit": "github:chasecee/sanity-kit#v0.2.0"
+"@chasecee/sanity-kit": "github:chasecee/sanity-kit"
 ```
 
 ### `apps/admin/package.json`
@@ -76,7 +78,7 @@ your-site/
 - Add:
 
 ```json
-"@chasecee/sanity-kit": "github:chasecee/sanity-kit#v0.2.0"
+"@chasecee/sanity-kit": "github:chasecee/sanity-kit"
 ```
 
 ### ISR webhook receiver
