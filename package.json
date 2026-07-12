@@ -32,7 +32,8 @@
     "@sanity/visual-editing": "^5.4.5"
   },
   "scripts": {
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "sync": "node scripts/sync-consumers.mjs"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
