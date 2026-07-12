@@ -73,6 +73,13 @@ export default function Gallery({
       data-pswp-gallery
       data-sanity={dataSanity}
     >
+      <style>{`
+        @media (width >= 640px) {
+          [data-pswp-gallery] > [data-gallery-row] {
+            grid-template-columns: var(--row-cols);
+          }
+        }
+      `}</style>
       {rows.map((row, rowIndex) => {
         const template = row
           .map((image) => {
@@ -84,7 +91,8 @@ export default function Gallery({
         return (
           <div
             key={row[0]?._key || `row-${rowIndex}`}
-            className="grid gap-1 md:gap-2 grid-cols-1 sm:[grid-template-columns:var(--row-cols)]"
+            data-gallery-row
+            className="grid grid-cols-1 gap-1 md:gap-2"
             style={{ "--row-cols": template } as CSSProperties}
           >
             {row.map((image) => {

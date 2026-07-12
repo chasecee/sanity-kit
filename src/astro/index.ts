@@ -5,7 +5,8 @@ export { default as Embed } from "./blocks/Embed";
 export { default as Spotify } from "./blocks/Spotify";
 export { default as Gallery } from "./blocks/Gallery";
 export { default as ImageBlock } from "./blocks/ImageBlock";
-export { normalizeAspectRatio, cleanMaybe } from "./blocks/utils";
+export { normalizeAspectRatio, cleanMaybe, cleanResource } from "./blocks/utils";
+export { default as StableFrame } from "./blocks/StableFrame";
 export { parseSpotifyUrl, spotifyEmbedHeight, spotifyEmbedSrc } from "./utils/spotifyEmbed";
 export { portableTextFields } from "./portableTextFields";
 
@@ -19,6 +20,7 @@ export {
 } from "./draft/preview";
 export { loadQuery, getDraftModeProps } from "./draft/load-query";
 export { useLiveQuery } from "./draft/live";
+export type { QueryResponseInitial } from "./draft/live";
 export { onRequest as draftMiddleware } from "./draft/middleware";
 export { createEnableDraftModeRoute } from "./draft/enable";
 export { disableDraftModeGet } from "./draft/disable";

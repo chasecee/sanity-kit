@@ -1,3 +1,5 @@
+import { stegaClean } from "@sanity/client/stega";
+
 export type SpotifyKind =
   | "album"
   | "track"
@@ -17,7 +19,7 @@ export function parseSpotifyUrl(input: string): {
   id: string;
   embedUrl: string;
 } | null {
-  const match = input.trim().match(KIND_RE);
+  const match = stegaClean(input).trim().match(KIND_RE);
   if (!match) return null;
   const kind = match[1].toLowerCase() as SpotifyKind;
   const id = match[2];

@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
-import { cleanMaybe, normalizeAspectRatio } from "./utils";
+import { cleanMaybe, cleanResource, normalizeAspectRatio } from "./utils";
+import StableFrame from "./StableFrame";
 
 type EmbedRatio = {
   desktop?: string;
@@ -30,7 +31,7 @@ export default function Embed({
   draftMode,
   dataSanity,
 }: EmbedProps) {
-  const embedUrl = cleanMaybe(url, draftMode);
+  const embedUrl = cleanResource(url);
   if (!embedUrl) return null;
 
   const embedTitle = cleanMaybe(title, draftMode);
@@ -58,7 +59,7 @@ export default function Embed({
       }
       data-sanity={dataSanity}
     >
-      <iframe
+      <StableFrame
         src={embedUrl}
         title={embedTitle || "Embedded content"}
         style={embedStyle}

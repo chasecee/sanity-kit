@@ -1,4 +1,5 @@
-import { cleanMaybe } from "./utils";
+import { cleanMaybe, cleanResource } from "./utils";
+import StableFrame from "./StableFrame";
 import {
   parseSpotifyUrl,
   spotifyEmbedHeight,
@@ -24,12 +25,13 @@ export default function Spotify({
   draftMode,
   dataSanity,
 }: SpotifyProps) {
-  const raw = cleanMaybe(url, draftMode);
-  const parsed = raw ? parseSpotifyUrl(raw) : null;
+  const parsed = parseSpotifyUrl(cleanResource(url));
   if (!parsed) return null;
 
-  const height = spotifyEmbedHeight(parsed.kind, size);
-  const src = spotifyEmbedSrc(parsed.embedUrl, theme);
+  const cleanSize = (cleanResource(size) || "default") as SpotifySize;
+  const cleanTheme = (cleanResource(theme) || "dark") as SpotifyTheme;
+  const height = spotifyEmbedHeight(parsed.kind, cleanSize);
+  const src = spotifyEmbedSrc(parsed.embedUrl, cleanTheme);
   const embedTitle = cleanMaybe(title, draftMode) || `Spotify ${parsed.kind}`;
 
   return (
@@ -38,7 +40,7 @@ export default function Spotify({
       style={{ maxWidth: "min(var(--prose-measure), 100%)" }}
       data-sanity={dataSanity}
     >
-      <iframe
+      <StableFrame
         src={src}
         title={embedTitle}
         width="100%"

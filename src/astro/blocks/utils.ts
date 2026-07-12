@@ -14,3 +14,8 @@ export function cleanMaybe(value: string | undefined, draftMode: boolean): strin
   if (!value) return "";
   return (draftMode ? value : stegaClean(value)).trim();
 }
+
+export function cleanResource(value: string | undefined): string {
+  if (!value) return "";
+  return stegaClean(value).trim();
+}

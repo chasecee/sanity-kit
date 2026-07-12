@@ -10,32 +10,31 @@ type WithUrlTitle = {
 export function AutoTitleObjectInput(props: ObjectInputProps) {
   const value = (props.value as WithUrlTitle | undefined) ?? {};
   const url = typeof value.url === "string" ? value.url.trim() : "";
-  const title = typeof value.title === "string" ? value.title : "";
+  const title = typeof value.title === "string" ? value.title.trim() : "";
   const onChange = props.onChange;
-  const autoTitleRef = useRef<string | undefined>(undefined);
-  const fetchedUrlRef = useRef<string>("");
+  const inFlight = useRef("");
 
   useEffect(() => {
-    if (!url) return;
-    if (title && title !== autoTitleRef.current) return;
-    if (fetchedUrlRef.current === url && title === autoTitleRef.current) return;
+    if (!url || title) return;
+    if (inFlight.current === url) return;
 
+    inFlight.current = url;
     const controller = new AbortController();
     const timer = window.setTimeout(async () => {
       try {
         const next = await fetchOEmbedTitle(url, controller.signal);
-        if (!next) return;
-        fetchedUrlRef.current = url;
-        autoTitleRef.current = next;
-        if (title !== next) onChange(set(next, ["title"]));
+        if (!next || controller.signal.aborted) return;
+        onChange(set(next, ["title"]));
       } catch (error) {
         if ((error as { name?: string })?.name === "AbortError") return;
+        if (inFlight.current === url) inFlight.current = "";
       }
-    }, 350);
+    }, 400);
 
     return () => {
       controller.abort();
       window.clearTimeout(timer);
+      if (inFlight.current === url) inFlight.current = "";
     };
   }, [url, title, onChange]);
 
