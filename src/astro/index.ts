@@ -22,5 +22,11 @@ export { useLiveQuery } from "./draft/live";
 export { onRequest as draftMiddleware } from "./draft/middleware";
 export { createEnableDraftModeRoute } from "./draft/enable";
 export { disableDraftModeGet } from "./draft/disable";
+export {
+  createIsrRevalidateRoute,
+  type CreateIsrRevalidateRouteOptions,
+  type IsrRevalidateBody,
+} from "./isr/revalidate";
+
 
 export { loadQuery as sharedLoadQuery, setServerClient, useQuery, useLiveMode } from "./draft/loader";

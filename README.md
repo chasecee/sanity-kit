@@ -5,13 +5,21 @@ Shared Sanity Studio and Astro runtime utilities.
 ## Install
 
 ```json
-"@chasecee/sanity-kit": "github:chasecee/sanity-kit#v0.1.0"
+"@chasecee/sanity-kit": "github:chasecee/sanity-kit#v0.2.0"
 ```
 
 ## Exports
 
 - `@chasecee/sanity-kit/studio`
 - `@chasecee/sanity-kit/astro`
+
+## ISR revalidation
+
+`createIsrRevalidateRoute` from `@chasecee/sanity-kit/astro` handles Bearer auth, settle delay, and Vercel ISR bust via `x-prerender-revalidate`. Sites supply `siteUrl` + `resolvePaths`.
+
+Draft middleware sets `Cache-Control: private, no-store` only in draft mode. Published HTML cache is left to Vercel ISR.
+
+Required site env: `ISR_BYPASS_TOKEN`, `REVALIDATE_SECRET`.
 
 ## Recommended Consumer Repo Structure
 
@@ -59,7 +67,7 @@ your-site/
 - Add:
 
 ```json
-"@chasecee/sanity-kit": "github:chasecee/sanity-kit#v0.1.0"
+"@chasecee/sanity-kit": "github:chasecee/sanity-kit#v0.2.0"
 ```
 
 ### `apps/admin/package.json`
@@ -68,8 +76,30 @@ your-site/
 - Add:
 
 ```json
-"@chasecee/sanity-kit": "github:chasecee/sanity-kit#v0.1.0"
+"@chasecee/sanity-kit": "github:chasecee/sanity-kit#v0.2.0"
 ```
+
+### ISR webhook receiver
+
+`apps/site/src/pages/api/revalidate.ts`
+
+```ts
+import { createIsrRevalidateRoute } from "@chasecee/sanity-kit/astro";
+
+export const prerender = false;
+
+export const POST = createIsrRevalidateRoute({
+  siteUrl: "https://your-site.com",
+  resolvePaths(body) {
+    const type = body._type as string | undefined;
+    const slug = (body.slug as { current?: string } | undefined)?.current;
+    if (type === "page" && slug) return [`/${slug}`];
+    return [];
+  },
+});
+```
+
+Pair with Vercel ISR in `astro.config.mjs` (`isr.bypassToken`, `exclude: ["/api/revalidate"]`) and a root `sanity.blueprint.ts` webhook.
 
 ## Site Wiring (Astro)
 

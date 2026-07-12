@@ -16,14 +16,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   const response = await next();
 
-  const contentType = response.headers.get("content-type") || "";
-  if (contentType.includes("text/html")) {
-    response.headers.set(
-      "Cache-Control",
-      draftMode
-        ? "private, no-store"
-        : "public, s-maxage=60, stale-while-revalidate=86400",
-    );
+  if (draftMode) {
+    const contentType = response.headers.get("content-type") || "";
+    if (contentType.includes("text/html")) {
+      response.headers.set("Cache-Control", "private, no-store");
+    }
   }
 
   return response;
