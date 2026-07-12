@@ -11,7 +11,10 @@ export { parseSpotifyUrl, spotifyEmbedHeight, spotifyEmbedSrc } from "./utils/sp
 export { reconcileByKey } from "./reconcile-by-key";
 export { createReconcileOptimistic } from "./optimistic";
 export { default as SanityVisualEditing } from "./visual-editing/SanityVisualEditing";
-export { default as DisableDraftMode } from "./visual-editing/DisableDraftMode";
+export {
+  default as DisableDraftMode,
+  presentationEditUrl,
+} from "./visual-editing/DisableDraftMode";
 export { FieldLabelPlugin } from "./visual-editing/FieldLabelPlugin";
 export {
   initImageGalleryLightbox,
