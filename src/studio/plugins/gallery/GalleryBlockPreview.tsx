@@ -1,4 +1,5 @@
 import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url";
+import { DragHandleIcon } from "@sanity/icons/DragHandle";
 import { Box, Card, Flex, Stack, Text } from "@sanity/ui";
 import { useClient } from "sanity";
 
@@ -23,18 +24,23 @@ export function GalleryBlockPreview({
   const items = Array.isArray(thumbs) ? thumbs.slice(0, 6) : [];
 
   return (
-    <Card padding={2}>
+    <Card padding={2} style={{ cursor: "grab" }}>
       <Stack space={3}>
-        <Stack space={2}>
-          <Text size={1} weight="semibold">
-            {title || "Gallery"}
-          </Text>
-          {subtitle ? (
-            <Text size={1} muted>
-              {subtitle}
+        <Flex align="center" gap={2}>
+          <Box style={{ lineHeight: 0, opacity: 0.7 }}>
+            <DragHandleIcon />
+          </Box>
+          <Stack space={2}>
+            <Text size={1} weight="semibold">
+              {title || "Gallery"}
             </Text>
-          ) : null}
-        </Stack>
+            {subtitle ? (
+              <Text size={1} muted>
+                {subtitle}
+              </Text>
+            ) : null}
+          </Stack>
+        </Flex>
         {items.length > 0 ? (
           <Flex gap={2}>
             {items.map((item, idx) => {
@@ -56,9 +62,16 @@ export function GalleryBlockPreview({
                     <img
                       src={src}
                       alt=""
+                      draggable={false}
                       width={48}
                       height={36}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                        WebkitUserDrag: "none",
+                      }}
                     />
                   ) : null}
                 </Box>
