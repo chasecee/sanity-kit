@@ -3,7 +3,15 @@ import { columnsBlock, contentBlocks } from "./blocks";
 
 type PortableTextReference = { type: string };
 type PortableTextObject = Record<string, unknown>;
-type ContentBlockType = "embed" | "spotify" | "gallery" | "skills" | "image" | "media" | "columns";
+type ContentBlockType =
+  | "embed"
+  | "spotify"
+  | "gallery"
+  | "skills"
+  | "image"
+  | "media"
+  | "videoFile"
+  | "columns";
 
 type CreateContentPortableTextOptions = {
   referenceTypes?: string[] | PortableTextReference[];

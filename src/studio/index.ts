@@ -18,5 +18,11 @@ export { withIncomingReferences } from "./lib/withIncomingReferences";
 export { default as embedSchema } from "./schemas/embed-schema";
 export { default as spotifySchema } from "./schemas/spotify-schema";
 export { default as columnsSchema } from "./schemas/columns-schema";
-export { imageBlock, mediaBlock, columnsBlock, contentBlocks } from "./schemas/blocks";
+export {
+  imageBlock,
+  mediaBlock,
+  videoFileBlock,
+  columnsBlock,
+  contentBlocks,
+} from "./schemas/blocks";
 export { createContentPortableText } from "./schemas/portable-text";

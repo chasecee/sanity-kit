@@ -6,6 +6,7 @@ export { default as Spotify } from "./blocks/Spotify";
 export { default as Gallery } from "./blocks/Gallery";
 export { default as ImageBlock } from "./blocks/ImageBlock";
 export { default as Media } from "./blocks/Media";
+export { default as VideoFile } from "./blocks/VideoFile";
 export { normalizeAspectRatio, cleanMaybe, cleanResource } from "./blocks/utils";
 export { default as StableFrame } from "./blocks/StableFrame";
 export { parseSpotifyUrl, spotifyEmbedHeight, spotifyEmbedSrc } from "./utils/spotifyEmbed";
@@ -17,7 +18,7 @@ export {
   initImageGalleryLightbox,
   destroyImageGalleryLightbox,
 } from "./lightbox/imageGalleryLightbox";
-export { portableTextFields } from "./portableTextFields";
+export { portableTextFields, portableTextProjections } from "./portableTextFields";
 
 export { configureAstroDraft } from "./draft/config";
 export {

@@ -14,6 +14,7 @@ import Spotify from "./blocks/Spotify";
 import Gallery, { type GalleryImageValue } from "./blocks/Gallery";
 import ImageBlock from "./blocks/ImageBlock";
 import Media from "./blocks/Media";
+import VideoFile from "./blocks/VideoFile";
 
 type DataAttributeResolver = (key: string | undefined) => string | undefined;
 type InternalLinkValue = { _type: string; slug?: string; refType?: string };
@@ -194,6 +195,13 @@ function createComponents(
       media: ({ value }) => (
         <Media
           value={value as { media?: { asset?: { url?: string; mimeType?: string } } }}
+          draftMode={draftMode}
+          dataSanity={getDataAttribute?.(getKey(value))}
+        />
+      ),
+      videoFile: ({ value }) => (
+        <VideoFile
+          value={value as { alt?: string; asset?: { url?: string; mimeType?: string } }}
           draftMode={draftMode}
           dataSanity={getDataAttribute?.(getKey(value))}
         />
