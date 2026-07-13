@@ -7,6 +7,7 @@ import {
   PRERENDER_BYPASS_COOKIE,
 } from "./isr-bypass";
 import { getSanityClient } from "./preview";
+import { setEditorAffinity } from "./editor-affinity";
 
 type CreateEnableRouteOptions = {
   siteUrl: string;
@@ -48,6 +49,7 @@ export function createEnableDraftModeRoute({
       ...base,
       httpOnly: false,
     });
+    setEditorAffinity(cookies, request.url);
 
     const bypassToken = getIsrBypassToken(isrBypassTokenEnvKey);
     if (bypassToken) {

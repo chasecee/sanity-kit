@@ -179,6 +179,15 @@ export const prerender = false;
 export const GET = disableDraftModeGet;
 ```
 
+`apps/site/src/pages/api/draft-mode/dismiss.ts`
+
+```ts
+import { dismissEditorModeGet } from "@chasecee/sanity-kit/astro";
+
+export const prerender = false;
+export const GET = dismissEditorModeGet;
+```
+
 ### Layout wiring for draft toolbar + visual editing
 
 Use the visual-editing subpath so published pages do not pull visual-editing code through the main Astro barrel.
@@ -192,13 +201,16 @@ import {
 } from "@chasecee/sanity-kit/astro/visual-editing";
 
 const draftMode = Astro.locals.draftMode === true;
+const editorMode = Astro.locals.editorMode === true;
+const showEditorBar = draftMode || editorMode;
 const editHref = presentationEditUrl(STUDIO_URL, Astro.url.href);
 ---
 
-{draftMode && (
+{showEditorBar && (
   <div>
     <DraftModeActions
       client:only="react"
+      mode={draftMode ? "draft" : "reenter"}
       editHref={editHref}
       linkClassName="underline underline-offset-2 hover:no-underline"
     />
@@ -206,6 +218,8 @@ const editHref = presentationEditUrl(STUDIO_URL, Astro.url.href);
 )}
 {draftMode && <SanityVisualEditing client:only="react" />}
 ```
+
+`draftMode` controls draft content + visual editing. `editorMode` is a sticky affinity cookie used only to show a re-enter bar after exiting draft.
 
 `FieldLabelPlugin` was removed. Click-to-edit still works from stega/data attributes, but the extra HUD label injection is intentionally gone.
 

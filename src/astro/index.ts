@@ -29,7 +29,7 @@ export { useLiveQuery } from "./draft/live";
 export type { QueryResponseInitial } from "./draft/live";
 export { onRequest as draftMiddleware } from "./draft/middleware";
 export { createEnableDraftModeRoute } from "./draft/enable";
-export { disableDraftModeGet } from "./draft/disable";
+export { disableDraftModeGet, dismissEditorModeGet } from "./draft/disable";
 export {
   createIsrRevalidateRoute,
   type CreateIsrRevalidateRouteOptions,
