@@ -22,4 +22,4 @@ Track these in separate PRs from kit extraction work.
 ## Shared
 
 - Align all consumers on the same `@chasecee/sanity-kit` commit via `bun run sync` from the kit root.
-- Shared PhotoSwipe theme CSS: `@chasecee/sanity-kit/astro/lightbox/galleryLightbox.css`.
+- PhotoSwipe theme CSS lives per consumer (`apps/site/src/styles/galleryLightbox.css` on chasecee/rockyvelvet; inline in ian `ImageGalleryLightbox.astro`).
