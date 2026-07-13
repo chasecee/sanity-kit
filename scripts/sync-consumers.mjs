@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const consumers = [
-  { name: "cee-app", path: path.resolve(root, "..", "cee-app") },
+  { name: "chasecee.com", path: path.resolve(root, "..", "chasecee.com") },
   { name: "ianrigby.com", path: path.resolve(root, "..", "ianrigby.com") },
   { name: "rockyvelvet.space", path: path.resolve(root, "..", "rockyvelvet.space") },
 ];

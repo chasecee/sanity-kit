@@ -12,7 +12,7 @@ Shared Sanity Studio and Astro runtime utilities.
 
 Keep the consumer dep as `github:chasecee/sanity-kit` (Vercel-safe). When this repo exists as a sibling checkout (`../sanity-kit`), consumer `dev` replaces `node_modules/@chasecee/sanity-kit` with a symlink to that directory before Vite starts — no `package.json` mutation, no Vite aliases.
 
-This kit’s `bunfig.toml` sets `peer = false` so a local `bun install` does not install `react` / `react-dom` into kit `node_modules`. After pushing kit changes, run `bun sync` in each consumer to refresh the pinned GitHub install.
+After cloning, run `bun install` in this repo so kit `dependencies` populate `node_modules` before starting consumer `dev`. This kit’s `bunfig.toml` sets `peer = false` so a local `bun install` does not install `react` / `react-dom` into kit `node_modules` — the consumer links those peers in. After pushing kit changes, run `bun sync` in each consumer to refresh the pinned GitHub install.
 
 ## Release + Consumer Sync Automation
 
