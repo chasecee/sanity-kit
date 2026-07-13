@@ -19,6 +19,7 @@ The consumer Vite plugin also peer-links `react` / `react-dom` from the app into
 - `@chasecee/sanity-kit/studio`
 - `@chasecee/sanity-kit/studio/typegen` — CLI-safe `kitTypegenConfig` (no JSX barrel)
 - `@chasecee/sanity-kit/astro`
+- `@chasecee/sanity-kit/astro/visual-editing` — visual editing React islands and draft-toolbar helpers
 - `kitStudioConfig` from `@chasecee/sanity-kit/studio` disables Content Releases by default
 
 ## ISR revalidation
@@ -177,6 +178,36 @@ import { disableDraftModeGet } from "@chasecee/sanity-kit/astro";
 export const prerender = false;
 export const GET = disableDraftModeGet;
 ```
+
+### Layout wiring for draft toolbar + visual editing
+
+Use the visual-editing subpath so published pages do not pull visual-editing code through the main Astro barrel.
+
+```astro
+---
+import {
+  SanityVisualEditing,
+  DraftModeActions,
+  presentationEditUrl,
+} from "@chasecee/sanity-kit/astro/visual-editing";
+
+const draftMode = Astro.locals.draftMode === true;
+const editHref = presentationEditUrl(STUDIO_URL, Astro.url.href);
+---
+
+{draftMode && (
+  <div>
+    <DraftModeActions
+      client:only="react"
+      editHref={editHref}
+      linkClassName="underline underline-offset-2 hover:no-underline"
+    />
+  </div>
+)}
+{draftMode && <SanityVisualEditing client:only="react" />}
+```
+
+`FieldLabelPlugin` was removed. Click-to-edit still works from stega/data attributes, but the extra HUD label injection is intentionally gone.
 
 ## Studio Wiring (Sanity)
 

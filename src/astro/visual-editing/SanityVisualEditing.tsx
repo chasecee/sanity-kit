@@ -7,12 +7,10 @@ import {
 } from "@sanity/visual-editing/react";
 import { perspectiveCookieName } from "@sanity/preview-url-secret/constants";
 import type { ClientPerspective } from "@sanity/client";
-import { FieldLabelPlugin } from "./FieldLabelPlugin";
 
 type OverlayPlugins = NonNullable<ComponentProps<typeof VisualEditing>["plugins"]>;
 
 type SanityVisualEditingProps = {
-  fieldLabels?: boolean;
   plugins?: OverlayPlugins;
 };
 
@@ -56,7 +54,6 @@ function handleRefresh(payload: HistoryRefresh): false | Promise<void> {
 }
 
 export default function SanityVisualEditing({
-  fieldLabels = true,
   plugins,
 }: SanityVisualEditingProps = {}) {
   type Navigate = Parameters<HistoryAdapter["subscribe"]>[0];
@@ -96,7 +93,7 @@ export default function SanityVisualEditing({
 
   const history = useMemo<HistoryAdapter>(
     () => ({
-      subscribe: (navigate) => {
+      subscribe: (navigate: Navigate) => {
         navigateRef.current = navigate;
         lastUrlRef.current = href();
         navigate({ type: "push", title: document.title, url: lastUrlRef.current });
@@ -109,16 +106,11 @@ export default function SanityVisualEditing({
     [],
   );
 
-  const overlayPlugins = useMemo<OverlayPlugins>(() => {
-    const base = fieldLabels ? [FieldLabelPlugin()] : [];
-    return plugins ? [...base, ...plugins] : base;
-  }, [fieldLabels, plugins]);
-
   return (
     <VisualEditing
       history={history}
       portal
-      plugins={overlayPlugins}
+      plugins={plugins}
       onPerspectiveChange={(perspective) => {
         if (setPerspectiveCookie(perspective)) window.location.reload();
       }}

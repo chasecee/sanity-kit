@@ -10,12 +10,6 @@ export { default as StableFrame } from "./blocks/StableFrame";
 export { parseSpotifyUrl, spotifyEmbedHeight, spotifyEmbedSrc } from "./utils/spotifyEmbed";
 export { reconcileByKey } from "./reconcile-by-key";
 export { createReconcileOptimistic } from "./optimistic";
-export { default as SanityVisualEditing } from "./visual-editing/SanityVisualEditing";
-export {
-  default as DisableDraftMode,
-  presentationEditUrl,
-} from "./visual-editing/DisableDraftMode";
-export { FieldLabelPlugin } from "./visual-editing/FieldLabelPlugin";
 export {
   initImageGalleryLightbox,
   destroyImageGalleryLightbox,
