@@ -67,7 +67,7 @@ function imageDimensions(image: GalleryImageValue): { width: number; height: num
 
 export default function Gallery({
   images,
-  columns = 2,
+  columns = 0,
   draftMode = false,
   dataSanity,
   buildImageUrl,
@@ -80,7 +80,7 @@ export default function Gallery({
 
   const safeColumns = Number.isInteger(columns)
     ? Math.min(6, Math.max(0, columns))
-    : 2;
+    : 0;
   const desktopColumns = safeColumns === 0 ? images.length : safeColumns;
 
   const rows: GalleryImageValue[][] = [];

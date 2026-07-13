@@ -85,7 +85,7 @@ export const createGallerySchemaTypes = (options: GallerySchemaOptions = {}) => 
       layout: "radio",
       direction: "horizontal",
     },
-    initialValue: 2,
+    initialValue: 0,
     validation: (Rule: any) => Rule.required().integer().min(0).max(6),
   };
 
@@ -125,7 +125,7 @@ export const createGallerySchemaTypes = (options: GallerySchemaOptions = {}) => 
         const thumbs = Array.isArray(images) ? images.slice(0, 6) : [];
         return {
           title: "Gallery",
-          subtitle: `${Array.isArray(images) ? images.length : 0} images · ${columns === 0 ? "per item" : `${columns ?? 2} col`}`,
+          subtitle: `${Array.isArray(images) ? images.length : 0} images · ${columns === 0 ? "per item" : `${columns ?? 0} col`}`,
           thumbs,
         };
       },

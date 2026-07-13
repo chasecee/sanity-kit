@@ -14,6 +14,16 @@ Keep the consumer dep as `github:chasecee/sanity-kit` (Vercel-safe). When this r
 
 This kit’s `bunfig.toml` sets `peer = false` so a local `bun install` does not install `react` / `react-dom` into kit `node_modules`. After pushing kit changes, run `bun sync` in each consumer to refresh the pinned GitHub install.
 
+## Release + Consumer Sync Automation
+
+Run from `sanity-kit` root:
+
+- `bun run sync`
+  - Runs each consumer repo `bun run sync`
+  - Verifies all consumer lockfiles resolve the same `@chasecee/sanity-kit` commit SHA
+
+Tagging is optional and separate. Use tags only when you want a human release marker.
+
 ## Exports
 
 - `@chasecee/sanity-kit/studio`
