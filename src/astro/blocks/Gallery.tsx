@@ -12,9 +12,17 @@ type AssetRef = {
   };
 };
 
+type ImageCrop = {
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
 export type GalleryImageValue = {
   _key?: string;
   asset?: AssetRef;
+  crop?: ImageCrop;
   alt?: string;
   caption?: string;
   url?: string;
@@ -28,7 +36,7 @@ type GalleryProps = {
   buildImageUrl: (source: unknown, options: { width: number; height?: number }) => string;
 };
 
-function imageDimensions(image: GalleryImageValue): { width: number; height: number } {
+function sourceDimensions(image: GalleryImageValue): { width: number; height: number } {
   const meta = image.asset?.metadata?.dimensions;
   if (meta?.width && meta?.height) {
     return { width: meta.width, height: meta.height };
@@ -42,6 +50,19 @@ function imageDimensions(image: GalleryImageValue): { width: number; height: num
   }
 
   return { width: 1600, height: 1600 };
+}
+
+function imageDimensions(image: GalleryImageValue): { width: number; height: number } {
+  const { width, height } = sourceDimensions(image);
+  const crop = image.crop;
+  if (!crop) return { width, height };
+
+  const croppedWidth = width * (1 - (crop.left ?? 0) - (crop.right ?? 0));
+  const croppedHeight = height * (1 - (crop.top ?? 0) - (crop.bottom ?? 0));
+  return {
+    width: Math.max(1, Math.round(croppedWidth)),
+    height: Math.max(1, Math.round(croppedHeight)),
+  };
 }
 
 export default function Gallery({
@@ -69,7 +90,7 @@ export default function Gallery({
 
   return (
     <div
-      className="prose-wide not-prose flex flex-col gap-2 md:gap-4"
+      className="prose-wide not-prose flex flex-col gap-3"
       data-pswp-gallery
       data-sanity={dataSanity}
     >
@@ -92,7 +113,7 @@ export default function Gallery({
           <div
             key={row[0]?._key || `row-${rowIndex}`}
             data-gallery-row
-            className="grid grid-cols-1 gap-1 md:gap-2"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-3"
             style={{ "--row-cols": template } as CSSProperties}
           >
             {row.map((image) => {

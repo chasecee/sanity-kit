@@ -13,6 +13,7 @@ import Embed from "./blocks/Embed";
 import Spotify from "./blocks/Spotify";
 import Gallery, { type GalleryImageValue } from "./blocks/Gallery";
 import ImageBlock from "./blocks/ImageBlock";
+import Media from "./blocks/Media";
 
 type DataAttributeResolver = (key: string | undefined) => string | undefined;
 type InternalLinkValue = { _type: string; slug?: string; refType?: string };
@@ -190,6 +191,13 @@ function createComponents(
           />
         );
       },
+      media: ({ value }) => (
+        <Media
+          value={value as { media?: { asset?: { url?: string; mimeType?: string } } }}
+          draftMode={draftMode}
+          dataSanity={getDataAttribute?.(getKey(value))}
+        />
+      ),
     },
   };
 }

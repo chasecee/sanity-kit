@@ -26,7 +26,7 @@ type ContentBlockType =
 
 export function contentBlocks(options?: { include?: ContentBlockType[] }) {
   const include = new Set<ContentBlockType>(
-    options?.include ?? ["embed", "spotify", "gallery", "skills", "image", "media"],
+    options?.include ?? ["embed", "spotify", "gallery", "image", "media"],
   );
   const blocks: Array<Record<string, unknown>> = [];
   if (include.has("embed")) blocks.push({ type: "embed" });

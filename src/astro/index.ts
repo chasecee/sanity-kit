@@ -5,9 +5,12 @@ export { default as Embed } from "./blocks/Embed";
 export { default as Spotify } from "./blocks/Spotify";
 export { default as Gallery } from "./blocks/Gallery";
 export { default as ImageBlock } from "./blocks/ImageBlock";
+export { default as Media } from "./blocks/Media";
 export { normalizeAspectRatio, cleanMaybe, cleanResource } from "./blocks/utils";
 export { default as StableFrame } from "./blocks/StableFrame";
 export { parseSpotifyUrl, spotifyEmbedHeight, spotifyEmbedSrc } from "./utils/spotifyEmbed";
+export { contentHasBlock } from "./utils/contentHasBlock";
+export { withSanityImageParams } from "./utils/sanityImageParams";
 export { reconcileByKey } from "./reconcile-by-key";
 export { createReconcileOptimistic } from "./optimistic";
 export {
