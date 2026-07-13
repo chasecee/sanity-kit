@@ -4,14 +4,22 @@ Track these in separate PRs from kit extraction work.
 
 ## rockyvelvet.space
 
-- Switch from `DisableDraftMode` main astro import to `DraftModeActions` from `@chasecee/sanity-kit/astro/visual-editing`.
-- Evaluate replacing local gallery + custom portable text rendering with kit `galleryPlugin` and `Body`.
+- Done: `DraftModeActions` from `@chasecee/sanity-kit/astro/visual-editing`.
+- Done: kit `galleryPlugin`, `Body`, and conditional `contentHasBlock` lightbox loading.
+- Done: generated query types via `defineQuery` + root `typegen` script.
 
 ## ianrigby.com
 
-- Add `SanityVisualEditing` + draft mode actions to site layout.
-- Evaluate adopting kit `Body` and block renderers where schema overlap exists.
+- Done: `SanityVisualEditing` + draft mode actions in site layout.
+- Done: kit `Body` for rich text blocks.
+- Intentionally separate: custom masonry gallery stack (page-builder blocks, deep-link URLs, related-post captions). Do not migrate to kit `galleryPlugin` without a deliberate content migration.
+
+## chasecee.com
+
+- Reference consumer for kit gallery, conditional lightbox, and draft/ISR stack.
+- Site-specific extensions kept local: `siteMini` block, music domain, physics hero.
 
 ## Shared
 
-- Align all consumers on the same `@chasecee/sanity-kit` commit after next kit release.
+- Align all consumers on the same `@chasecee/sanity-kit` commit via `bun run sync` from the kit root.
+- Shared PhotoSwipe theme CSS: `@chasecee/sanity-kit/astro/lightbox/galleryLightbox.css`.

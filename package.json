@@ -12,6 +12,7 @@
     "./astro": "./src/astro/index.ts",
     "./astro/visual-editing": "./src/astro/visual-editing/index.ts",
     "./astro/tailwind.css": "./src/astro/tailwind.css",
+    "./astro/lightbox/galleryLightbox.css": "./src/astro/lightbox/galleryLightbox.css",
     "./astro/lightbox/galleryLightboxBoot": "./src/astro/lightbox/galleryLightboxBoot.ts",
     "./astro/lightbox/imageGalleryLightbox": "./src/astro/lightbox/imageGalleryLightbox.ts",
     "./package.json": "./package.json"

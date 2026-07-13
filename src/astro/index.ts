@@ -4,6 +4,7 @@ export { default as Columns } from "./blocks/Columns";
 export { default as Embed } from "./blocks/Embed";
 export { default as Spotify } from "./blocks/Spotify";
 export { default as Gallery } from "./blocks/Gallery";
+export type { GalleryImageValue } from "./blocks/Gallery";
 export { default as ImageBlock } from "./blocks/ImageBlock";
 export { default as Media } from "./blocks/Media";
 export { default as VideoFile } from "./blocks/VideoFile";
