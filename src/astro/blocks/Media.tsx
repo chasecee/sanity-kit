@@ -28,9 +28,13 @@ export default function Media({ value, draftMode = false, dataSanity }: MediaPro
 
   if (mimeType.startsWith("video/")) {
     return (
-      <div className="prose-wide not-prose" data-sanity={dataSanity}>
-        <video className="h-auto w-full" controls preload="metadata" src={src} />
-      </div>
+      <video
+        className="mx-auto h-auto max-w-full"
+        controls
+        preload="metadata"
+        src={src}
+        data-sanity={dataSanity}
+      />
     );
   }
 

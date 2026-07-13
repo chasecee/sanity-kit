@@ -17,6 +17,18 @@ const fileAsset = `asset->{
   size
 }`;
 
+const posterFields = `poster{
+  ...,
+  asset->{
+    _id,
+    url,
+    mimeType,
+    metadata{
+      dimensions
+    }
+  }
+}`;
+
 const mediaFields = `_type == "media" => {
   ...,
   media{
@@ -27,7 +39,20 @@ const mediaFields = `_type == "media" => {
 
 const videoFileFields = `_type == "videoFile" => {
   ...,
-  ${fileAsset}
+  ${fileAsset},
+  ${posterFields}
+}`;
+
+const galleryFields = `_type == "gallery" => {
+  ...,
+  images[]{
+    ...,
+    _type == "galleryVideo" => {
+      ...,
+      ${fileAsset},
+      ${posterFields}
+    }
+  }
 }`;
 
 export const portableTextProjections = `
@@ -35,6 +60,7 @@ export const portableTextProjections = `
   ${markDefs},
   ${mediaFields},
   ${videoFileFields},
+  ${galleryFields},
   _type == "columns" => {
     ...,
     columns[]{
@@ -43,7 +69,8 @@ export const portableTextProjections = `
         ...,
         ${markDefs},
         ${mediaFields},
-        ${videoFileFields}
+        ${videoFileFields},
+        ${galleryFields}
       }
     }
   }

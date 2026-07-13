@@ -7,7 +7,14 @@ type VideoFileAsset = {
 
 type VideoFileValue = {
   alt?: string;
+  width?: number;
+  height?: number;
   asset?: VideoFileAsset;
+  poster?: {
+    asset?: {
+      url?: string;
+    };
+  };
 };
 
 type VideoFileProps = {
@@ -23,18 +30,28 @@ export default function VideoFile({
 }: VideoFileProps) {
   const src = cleanMaybe(value?.asset?.url || "", draftMode);
   const alt = cleanMaybe(value?.alt || "", draftMode);
+  const poster = cleanMaybe(value?.poster?.asset?.url || "", draftMode);
+  const width = value?.width && value.width > 0 ? value.width : undefined;
+  const height = value?.height && value.height > 0 ? value.height : undefined;
 
   if (!src) return null;
 
   return (
-    <div className="prose-wide not-prose" data-sanity={dataSanity}>
-      <video
-        className="h-auto w-full"
-        controls
-        preload="metadata"
-        src={src}
-        aria-label={alt || undefined}
-      />
-    </div>
+    <video
+      className="mx-auto h-auto max-w-full"
+      style={
+        width && height
+          ? { aspectRatio: `${width} / ${height}` }
+          : undefined
+      }
+      width={width}
+      height={height}
+      controls
+      preload="metadata"
+      src={src}
+      poster={poster || undefined}
+      aria-label={alt || undefined}
+      data-sanity={dataSanity}
+    />
   );
 }

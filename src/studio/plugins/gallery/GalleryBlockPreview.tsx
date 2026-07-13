@@ -2,10 +2,15 @@ import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url
 import { DragHandleIcon } from "@sanity/icons/DragHandle";
 import { Box, Card, Flex, Stack, Text } from "@sanity/ui";
 import { useClient } from "sanity";
+import { STUDIO_API_VERSION } from "../../lib/maxVideoFileSize";
 
 type Thumb = {
   _key?: string;
-  asset?: SanityImageSource;
+  _type?: string;
+  asset?: SanityImageSource & { _ref?: string; url?: string };
+  poster?: {
+    asset?: SanityImageSource;
+  };
 };
 
 type GalleryBlockPreviewProps = {
@@ -14,12 +19,16 @@ type GalleryBlockPreviewProps = {
   thumbs?: Thumb[];
 };
 
+function isVideoThumb(item: Thumb) {
+  return item._type === "galleryVideo";
+}
+
 export function GalleryBlockPreview({
   title,
   subtitle,
   thumbs,
 }: GalleryBlockPreviewProps) {
-  const client = useClient({ apiVersion: "2023-10-01" });
+  const client = useClient({ apiVersion: STUDIO_API_VERSION });
   const builder = createImageUrlBuilder(client);
   const items = Array.isArray(thumbs) ? thumbs.slice(0, 6) : [];
 
@@ -44,8 +53,10 @@ export function GalleryBlockPreview({
         {items.length > 0 ? (
           <Flex gap={2}>
             {items.map((item, idx) => {
-              const src = item.asset
-                ? builder.image(item.asset).width(96).height(72).fit("crop").auto("format").url()
+              const video = isVideoThumb(item);
+              const imageSource = video ? item.poster?.asset : item.asset;
+              const src = imageSource
+                ? builder.image(imageSource).width(96).height(72).fit("crop").auto("format").url()
                 : "";
               return (
                 <Box
@@ -56,6 +67,8 @@ export function GalleryBlockPreview({
                     borderRadius: 4,
                     overflow: "hidden",
                     background: "var(--card-muted-bg-color)",
+                    display: "grid",
+                    placeItems: "center",
                   }}
                 >
                   {src ? (
@@ -73,6 +86,10 @@ export function GalleryBlockPreview({
                         WebkitUserDrag: "none",
                       }}
                     />
+                  ) : video ? (
+                    <Text size={0} muted>
+                      Video
+                    </Text>
                   ) : null}
                 </Box>
               );

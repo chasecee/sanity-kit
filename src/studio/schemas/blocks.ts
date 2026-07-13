@@ -1,4 +1,10 @@
-const MAX_VIDEO_BYTES = 100_000_000;
+import { maxVideoFileSize } from "../lib/maxVideoFileSize";
+import {
+  videoDimensionFields,
+  videoPosterField,
+} from "../lib/videoDerivedFields";
+import { SpacedField } from "../inputs/SpacedField";
+import { VideoFileInput } from "../inputs/VideoFileInput";
 
 export const imageBlock = {
   type: "image",
@@ -18,25 +24,41 @@ export const videoFileBlock = {
   type: "file",
   title: "Video file",
   options: { accept: "video/mp4,video/webm,.mp4,.webm" },
+  components: {
+    input: VideoFileInput,
+  },
   fields: [
     {
       name: "alt",
       type: "string",
       title: "Alt text",
       description: "Alternative text for accessibility.",
+      components: { field: SpacedField },
     },
+    videoPosterField,
+    ...videoDimensionFields,
   ],
-  validation: (Rule: any) =>
-    Rule.custom(async (value: { asset?: { _ref?: string } } | undefined, context: any) => {
-      const ref = value?.asset?._ref;
-      if (!ref) return true;
-      const client = context.getClient({ apiVersion: "2025-01-01" });
-      const size = await client.fetch(`*[_id == $id][0].size`, { id: ref });
-      if (typeof size === "number" && size > MAX_VIDEO_BYTES) {
-        return "Video must be 100MB or smaller";
-      }
-      return true;
+  validation: maxVideoFileSize,
+  preview: {
+    select: {
+      media: "poster",
+      title: "alt",
+      filename: "asset.originalFilename",
+    },
+    prepare: ({
+      media,
+      title,
+      filename,
+    }: {
+      media?: unknown;
+      title?: string;
+      filename?: string;
+    }) => ({
+      media,
+      title: title || filename || "Video file",
+      subtitle: "Video",
     }),
+  },
 };
 
 export const columnsBlock = {
