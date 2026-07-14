@@ -229,7 +229,7 @@ export default function Gallery({
 
   return (
     <div
-      className="measure-wide not-prose flex flex-col gap-3"
+      className="measure-wide my-16 not-prose flex flex-col gap-3"
       data-pswp-gallery
       data-sanity={dataSanity}
     >

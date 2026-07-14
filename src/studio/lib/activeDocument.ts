@@ -2,6 +2,7 @@ type ActiveDocument = {
   id: string;
   type: string;
   slug?: string;
+  title?: string;
 };
 
 let activeDocument: ActiveDocument | null = null;
@@ -11,7 +12,8 @@ export function setActiveDocument(next: ActiveDocument | null) {
   const same =
     activeDocument?.id === next?.id &&
     activeDocument?.type === next?.type &&
-    activeDocument?.slug === next?.slug;
+    activeDocument?.slug === next?.slug &&
+    activeDocument?.title === next?.title;
   if (same) return;
 
   activeDocument = next;

@@ -3,7 +3,12 @@ export { ColumnsPortableTextPlugin, ColumnsObjectInput } from "./plugins/columns
 export { AspectRatioInput } from "./plugins/aspect-ratio/index";
 export { AutoTitleObjectInput } from "./plugins/auto-title/AutoTitleObjectInput";
 export { fetchOEmbedTitle } from "./plugins/auto-title/fetchOEmbedTitle";
-export { DocumentLayout, StudioNavbar, withPublishShortcut } from "./plugins/preview-navbar/index";
+export {
+  DocumentLayout,
+  StudioNavbar,
+  StudioToolMenu,
+  withPublishShortcut,
+} from "./plugins/preview-navbar/index";
 export {
   configureStudioPreviewUrls,
   getSiteBaseUrl,

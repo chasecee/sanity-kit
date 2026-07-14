@@ -96,14 +96,23 @@ function ActiveDocumentTracker({
   documentType: string;
 }) {
   const { draft, published } = useEditState(documentId, documentType, "low");
-  const slug = ((published || draft) as { slug?: { current?: string } } | null)
-    ?.slug?.current;
+  const current = (published || draft) as
+    | {
+        slug?: { current?: string };
+        title?: string;
+        name?: string;
+        albumName?: string;
+      }
+    | null;
+  const slug = current?.slug?.current;
+  const title = current?.title || current?.name || current?.albumName;
 
   useEffect(() => {
     setActiveDocument({
       id: documentId,
       type: documentType,
       slug,
+      title,
     });
 
     return () => {
@@ -111,7 +120,7 @@ function ActiveDocumentTracker({
         setActiveDocument(null);
       }
     };
-  }, [documentId, documentType, slug]);
+  }, [documentId, documentType, slug, title]);
 
   return null;
 }
