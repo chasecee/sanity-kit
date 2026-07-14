@@ -38,7 +38,7 @@ export default function VideoFile({
 
   return (
     <video
-      className="mx-auto h-auto max-w-full"
+      className="measure-wide h-auto max-w-full"
       style={
         width && height
           ? { aspectRatio: `${width} / ${height}` }

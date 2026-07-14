@@ -51,11 +51,10 @@ export default function Embed({
 
   return (
     <div
-      className={width === "full" ? "prose-wide w-full" : "mx-auto w-full"}
-      style={
-        width === "content"
-          ? ({ maxWidth: "min(var(--prose-measure), 100%)" } as CSSProperties)
-          : undefined
+      className={
+        width === "full"
+          ? "measure-wide"
+          : "measure"
       }
       data-sanity={dataSanity}
     >

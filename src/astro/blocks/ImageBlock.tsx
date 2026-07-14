@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { cleanMaybe } from "./utils";
 
 type AssetRef = {
@@ -52,7 +53,8 @@ export default function ImageBlock({
       alt={imageAlt}
       width={finalWidth}
       height={finalHeight}
-      className="mx-auto max-w-full"
+      className="measure-fit max-w-full"
+      style={{ "--media-ar": finalWidth / finalHeight } as CSSProperties}
       data-sanity={dataSanity}
     />
   );

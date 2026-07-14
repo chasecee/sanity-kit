@@ -229,7 +229,7 @@ export default function Gallery({
 
   return (
     <div
-      className="prose-wide not-prose flex flex-col gap-3"
+      className="measure-wide not-prose flex flex-col gap-3"
       data-pswp-gallery
       data-sanity={dataSanity}
     >
@@ -247,13 +247,26 @@ export default function Gallery({
             return `${(width / height).toFixed(4)}fr`;
           })
           .join(" ");
+        const solo = row.length === 1;
+        const soloSize = solo ? itemSize(row[0], videoSizes) : null;
 
         return (
           <div
             key={row[0]?._key || `row-${rowIndex}`}
             data-gallery-row
-            className="grid grid-cols-1 sm:grid-cols-2 gap-3"
-            style={{ "--row-cols": template } as CSSProperties}
+            className={
+              solo
+                ? "measure-fit grid grid-cols-1 gap-3"
+                : "grid grid-cols-1 sm:grid-cols-2 gap-3"
+            }
+            style={
+              {
+                "--row-cols": template,
+                ...(soloSize
+                  ? { "--media-ar": soloSize.width / soloSize.height }
+                  : {}),
+              } as CSSProperties
+            }
           >
             {row.map((item) => {
               if (isGalleryVideo(item)) {

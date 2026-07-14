@@ -29,7 +29,7 @@ export default function Media({ value, draftMode = false, dataSanity }: MediaPro
   if (mimeType.startsWith("video/")) {
     return (
       <video
-        className="mx-auto h-auto max-w-full"
+        className="measure-wide h-auto max-w-full"
         controls
         preload="metadata"
         src={src}
@@ -40,7 +40,7 @@ export default function Media({ value, draftMode = false, dataSanity }: MediaPro
 
   if (mimeType.startsWith("audio/")) {
     return (
-      <div className="prose-wide not-prose" data-sanity={dataSanity}>
+      <div className="measure-wide not-prose" data-sanity={dataSanity}>
         <audio className="w-full" controls preload="metadata" src={src} />
       </div>
     );

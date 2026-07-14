@@ -36,8 +36,7 @@ export default function Spotify({
 
   return (
     <div
-      className="mx-auto w-full"
-      style={{ maxWidth: "min(var(--prose-measure), 100%)" }}
+      className="measure"
       data-sanity={dataSanity}
     >
       <StableFrame
