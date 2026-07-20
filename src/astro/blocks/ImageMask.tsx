@@ -7,17 +7,19 @@ type ImageMaskProps = {
   dataSanity?: string;
 };
 
-const channelMatrices = {
-  r: "1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0",
-  b: "0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0",
-} as const;
+const redMatrix = "1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0";
 
 const echoes = [
-  { x: "-18%", channel: "r", blur: 4, opacity: 0.75 },
-  { x: "18%", channel: "b", blur: 4, opacity: 0.75 },
-  { x: "-39%", channel: "r", blur: 14, opacity: 0.35 },
-  { x: "39%", channel: "b", blur: 14, opacity: 0.35 },
+  { x: "-18%", hue: 0, blur: 4, opacity: 0.7 },
+  { x: "18%", hue: 210, blur: 4, opacity: 0.7 },
+  { x: "-28%", hue: 60, blur: 9, opacity: 0.5 },
+  { x: "28%", hue: 260, blur: 9, opacity: 0.5 },
+  { x: "-39%", hue: 120, blur: 14, opacity: 0.35 },
+  { x: "39%", hue: 300, blur: 14, opacity: 0.35 },
 ] as const;
+
+const sheen =
+  "conic-gradient(from 210deg at 50% 50%, rgba(255,0,128,0.5), rgba(255,200,0,0.35), rgba(0,255,170,0.45), rgba(0,140,255,0.5), rgba(170,0,255,0.45), rgba(255,0,128,0.5))";
 
 export default function ImageMask({ value, buildImageUrl, dataSanity }: ImageMaskProps) {
   const filterId = useId();
@@ -32,30 +34,11 @@ export default function ImageMask({ value, buildImageUrl, dataSanity }: ImageMas
     <div data-sanity={dataSanity} className="relative mx-auto max-w-[400px]">
       <svg aria-hidden="true" width="0" height="0" style={{ position: "absolute" }}>
         <defs>
-          {(Object.keys(channelMatrices) as Array<keyof typeof channelMatrices>).map((channel) => (
-            <filter
-              key={channel}
-              id={`${filterId}-${channel}`}
-              x="-20%"
-              y="-20%"
-              width="140%"
-              height="140%"
-            >
-              <feTurbulence
-                type="fractalNoise"
-                baseFrequency="0.9"
-                numOctaves="2"
-                result="noise"
-              />
-              <feColorMatrix
-                in="SourceGraphic"
-                type="matrix"
-                values={channelMatrices[channel]}
-                result="tint"
-              />
-              <feDisplacementMap in="tint" in2="noise" scale="14" />
-            </filter>
-          ))}
+          <filter id={filterId} x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="noise" />
+            <feColorMatrix in="SourceGraphic" type="matrix" values={redMatrix} result="tint" />
+            <feDisplacementMap in="tint" in2="noise" scale="14" />
+          </filter>
         </defs>
       </svg>
       {echoes.map((echo, index) => (
@@ -65,7 +48,7 @@ export default function ImageMask({ value, buildImageUrl, dataSanity }: ImageMas
           className="pointer-events-none absolute inset-0"
           style={{
             transform: `translateX(${echo.x})`,
-            filter: `url(#${filterId}-${echo.channel}) blur(${echo.blur}px)`,
+            filter: `url(#${filterId}) hue-rotate(${echo.hue}deg) saturate(1.6) blur(${echo.blur}px)`,
             opacity: echo.opacity,
             mixBlendMode: "screen",
           }}
@@ -86,6 +69,11 @@ export default function ImageMask({ value, buildImageUrl, dataSanity }: ImageMas
           alt={alt}
           loading="lazy"
           className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{ background: sheen, mixBlendMode: "overlay", opacity: 0.5 }}
         />
       </div>
     </div>
