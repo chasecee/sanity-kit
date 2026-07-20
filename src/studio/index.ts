@@ -26,15 +26,9 @@ export { default as spotifySchema } from "./schemas/spotify-schema";
 export { default as columnsSchema } from "./schemas/columns-schema";
 export {
   imageBlock,
-  imageMaskBlock,
   mediaBlock,
   videoFileBlock,
   columnsBlock,
   contentBlocks,
 } from "./schemas/blocks";
-export {
-  imageMasks,
-  imageMaskOptions,
-  type ImageMaskShape,
-} from "../astro/blocks/masks";
 export { createContentPortableText } from "./schemas/portable-text";

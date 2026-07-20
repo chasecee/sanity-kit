@@ -3,8 +3,6 @@ import {
   videoDimensionFields,
   videoPosterField,
 } from "../lib/videoDerivedFields";
-import { imageMaskOptions } from "../../astro/blocks/masks";
-import { ImageMaskInput } from "../inputs/ImageMaskInput";
 import { SpacedField } from "../inputs/SpacedField";
 import { VideoFileInput } from "../inputs/VideoFileInput";
 
@@ -63,54 +61,6 @@ export const videoFileBlock = {
   },
 };
 
-export const imageMaskBlock = {
-  name: "imageMask",
-  type: "object",
-  title: "Image mask",
-  fields: [
-    {
-      name: "image",
-      type: "image",
-      title: "Image",
-      options: { hotspot: true },
-      fields: [{ name: "alt", type: "string", title: "Alt text" }],
-    },
-    {
-      name: "mask",
-      type: "string",
-      title: "Mask",
-      options: { list: imageMaskOptions, layout: "radio" },
-      initialValue: "triangle",
-    },
-    {
-      name: "effect",
-      type: "boolean",
-      title: "Iridescent effect",
-      initialValue: true,
-    },
-  ],
-  components: {
-    input: ImageMaskInput,
-  },
-  preview: {
-    select: {
-      image: "image",
-      mask: "mask",
-    },
-    prepare: ({
-      image,
-      mask,
-    }: {
-      image?: unknown;
-      mask?: string;
-    }) => ({
-      title: mask || "Image mask",
-      subtitle: "Image mask",
-      media: image,
-    }),
-  },
-};
-
 export const columnsBlock = {
   type: "columns",
 };
@@ -121,7 +71,6 @@ type ContentBlockType =
   | "gallery"
   | "skills"
   | "image"
-  | "imageMask"
   | "media"
   | "videoFile"
   | "columns";
@@ -136,7 +85,6 @@ export function contentBlocks(options?: { include?: ContentBlockType[] }) {
   if (include.has("gallery")) blocks.push({ type: "gallery" });
   if (include.has("skills")) blocks.push({ type: "skills" });
   if (include.has("image")) blocks.push(imageBlock);
-  if (include.has("imageMask")) blocks.push(imageMaskBlock);
   if (include.has("media")) blocks.push(mediaBlock);
   if (include.has("videoFile")) blocks.push(videoFileBlock);
   if (include.has("columns")) blocks.push(columnsBlock);
