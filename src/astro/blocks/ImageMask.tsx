@@ -13,8 +13,8 @@ type ImageMaskProps = {
 const redMatrix = "1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0";
 
 const echoes = [
-  { x: "-18%", hue: 0, blur: 4, opacity: 0.7 },
-  { x: "18%", hue: 210, blur: 4, opacity: 0.7 },
+  { x: "-18%", hue: 0, blur: 4, opacity: 0.4 },
+  { x: "18%", hue: 210, blur: 4, opacity: 0.4 },
   { x: "-28%", hue: 60, blur: 9, opacity: 0.5 },
   { x: "28%", hue: 260, blur: 9, opacity: 0.5 },
   { x: "-39%", hue: 120, blur: 14, opacity: 0.35 },
