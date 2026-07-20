@@ -13,10 +13,10 @@ const channelMatrices = {
 } as const;
 
 const echoes = [
-  { x: "-6%", channel: "r", blur: 4, opacity: 0.75 },
-  { x: "6%", channel: "b", blur: 4, opacity: 0.75 },
-  { x: "-13%", channel: "r", blur: 14, opacity: 0.35 },
-  { x: "13%", channel: "b", blur: 14, opacity: 0.35 },
+  { x: "-18%", channel: "r", blur: 4, opacity: 0.75 },
+  { x: "18%", channel: "b", blur: 4, opacity: 0.75 },
+  { x: "-39%", channel: "r", blur: 14, opacity: 0.35 },
+  { x: "39%", channel: "b", blur: 14, opacity: 0.35 },
 ] as const;
 
 export default function ImageMask({ value, buildImageUrl, dataSanity }: ImageMaskProps) {
