@@ -9,7 +9,6 @@ type ContentBlockType =
   | "gallery"
   | "skills"
   | "image"
-  | "imageMask"
   | "media"
   | "videoFile"
   | "columns";
