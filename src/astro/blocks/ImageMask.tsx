@@ -41,6 +41,19 @@ export default function ImageMask({ value, buildImageUrl, dataSanity }: ImageMas
           </filter>
         </defs>
       </svg>
+      <div className="relative w-full overflow-hidden pb-[100%]" style={{ clipPath }}>
+        <img
+          src={imageSrc}
+          alt={alt}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{ background: sheen, mixBlendMode: "overlay", opacity: 0.5 }}
+        />
+      </div>
       {echoes.map((echo, index) => (
         <div
           key={index}
@@ -63,19 +76,6 @@ export default function ImageMask({ value, buildImageUrl, dataSanity }: ImageMas
           </div>
         </div>
       ))}
-      <div className="relative w-full overflow-hidden pb-[100%]" style={{ clipPath }}>
-        <img
-          src={imageSrc}
-          alt={alt}
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
-          style={{ background: sheen, mixBlendMode: "overlay", opacity: 0.5 }}
-        />
-      </div>
     </div>
   );
 }
