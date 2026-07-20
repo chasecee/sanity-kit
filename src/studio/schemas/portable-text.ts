@@ -52,6 +52,10 @@ export function createContentPortableText(options?: CreateContentPortableTextOpt
                   name: "href",
                   type: "url",
                   title: "URL",
+                  validation: (Rule: any) =>
+                    Rule.uri({
+                      scheme: ["http", "https", "mailto", "tel"],
+                    }),
                 },
                 {
                   title: "Open in new tab",
