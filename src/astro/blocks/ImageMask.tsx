@@ -2,8 +2,11 @@ import React, { useId } from "react";
 import { imageMasks, type ImageMaskShape } from "./masks";
 
 type ImageMaskProps = {
-  value: { image?: unknown; mask?: string };
-  buildImageUrl: (source: unknown, options: { width: number; height?: number }) => string;
+  value: { image?: unknown; mask?: string; effect?: boolean };
+  buildImageUrl: (
+    source: unknown,
+    options: { width: number; height?: number },
+  ) => string;
   dataSanity?: string;
 };
 
@@ -21,7 +24,11 @@ const echoes = [
 const sheen =
   "conic-gradient(from 210deg at 50% 50%, rgba(255,0,128,0.5), rgba(255,200,0,0.35), rgba(0,255,170,0.45), rgba(0,140,255,0.5), rgba(170,0,255,0.45), rgba(255,0,128,0.5))";
 
-export default function ImageMask({ value, buildImageUrl, dataSanity }: ImageMaskProps) {
+export default function ImageMask({
+  value,
+  buildImageUrl,
+  dataSanity,
+}: ImageMaskProps) {
   const filterId = useId();
   const imageSrc = buildImageUrl(value.image, { width: 1200, height: 1200 });
   if (!imageSrc) return null;
@@ -29,53 +36,80 @@ export default function ImageMask({ value, buildImageUrl, dataSanity }: ImageMas
   const mask = (value.mask as ImageMaskShape) || "triangle";
   const clipPath = imageMasks[mask] ?? imageMasks.triangle;
   const alt = (value.image as { alt?: string })?.alt ?? "";
+  const effect = value.effect !== false;
 
   return (
     <div data-sanity={dataSanity} className="relative mx-auto max-w-[400px]">
-      <svg aria-hidden="true" width="0" height="0" style={{ position: "absolute" }}>
-        <defs>
-          <filter id={filterId} x="-20%" y="-20%" width="140%" height="140%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="noise" />
-            <feColorMatrix in="SourceGraphic" type="matrix" values={redMatrix} result="tint" />
-            <feDisplacementMap in="tint" in2="noise" scale="14" />
-          </filter>
-        </defs>
-      </svg>
-      <div className="relative w-full overflow-hidden pb-[100%]" style={{ clipPath }}>
+      {effect && (
+        <svg
+          aria-hidden="true"
+          width="0"
+          height="0"
+          style={{ position: "absolute" }}
+        >
+          <defs>
+            <filter id={filterId} x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.9"
+                numOctaves="2"
+                result="noise"
+              />
+              <feColorMatrix
+                in="SourceGraphic"
+                type="matrix"
+                values={redMatrix}
+                result="tint"
+              />
+              <feDisplacementMap in="tint" in2="noise" scale="14" />
+            </filter>
+          </defs>
+        </svg>
+      )}
+      <div
+        className="relative w-full overflow-hidden pb-[100%]"
+        style={{ clipPath }}
+      >
         <img
           src={imageSrc}
           alt={alt}
           loading="lazy"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
-          style={{ background: sheen, mixBlendMode: "overlay", opacity: 0.5 }}
-        />
+        {effect && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{ background: sheen, mixBlendMode: "overlay", opacity: 0.5 }}
+          />
+        )}
       </div>
-      {echoes.map((echo, index) => (
-        <div
-          key={index}
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
-          style={{
-            transform: `translateX(${echo.x})`,
-            filter: `url(#${filterId}) hue-rotate(${echo.hue}deg) saturate(1.6) blur(${echo.blur}px)`,
-            opacity: echo.opacity,
-            mixBlendMode: "screen",
-          }}
-        >
-          <div className="relative w-full overflow-hidden pb-[100%]" style={{ clipPath }}>
-            <img
-              src={imageSrc}
-              alt=""
-              loading="lazy"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
+      {effect &&
+        echoes.map((echo, index) => (
+          <div
+            key={index}
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              transform: `translateX(${echo.x})`,
+              filter: `url(#${filterId}) hue-rotate(${echo.hue}deg) saturate(1.6) blur(${echo.blur}px)`,
+              opacity: echo.opacity,
+              mixBlendMode: "screen",
+            }}
+          >
+            <div
+              className="relative w-full overflow-hidden pb-[100%]"
+              style={{ clipPath }}
+            >
+              <img
+                src={imageSrc}
+                alt=""
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 }

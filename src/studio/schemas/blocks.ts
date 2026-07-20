@@ -82,6 +82,12 @@ export const imageMaskBlock = {
       options: { list: imageMaskOptions, layout: "radio" },
       initialValue: "triangle",
     },
+    {
+      name: "effect",
+      type: "boolean",
+      title: "Iridescent effect",
+      initialValue: true,
+    },
   ],
   components: {
     input: ImageMaskInput,

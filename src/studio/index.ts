@@ -1,4 +1,5 @@
 export { galleryPlugin, createGalleryInput, createGallerySchemaTypes } from "./plugins/gallery/index";
+export { mediaPlugin, mediaAssetSource, mediaSources } from "./plugins/media/index";
 export { ColumnsPortableTextPlugin, ColumnsObjectInput } from "./plugins/columns/index";
 export { AspectRatioInput } from "./plugins/aspect-ratio/index";
 export { AutoTitleObjectInput } from "./plugins/auto-title/AutoTitleObjectInput";

@@ -21,7 +21,8 @@
     "react-dom": "^19.0.0",
     "sanity": "^6.5.0",
     "astro": "^5.0.0 || ^6.0.0 || ^7.0.0",
-    "photoswipe": "^5.4.4"
+    "photoswipe": "^5.4.4",
+    "sanity-plugin-media": "^6.0.0"
   },
   "dependencies": {
     "@portabletext/editor": "^7.10.7",
@@ -46,6 +47,7 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "sanity": "6.5.0",
+    "sanity-plugin-media": "^6.0.0",
     "styled-components": "^6.1.15",
     "typescript": "^5.9.0"
   }
