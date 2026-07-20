@@ -13,6 +13,7 @@ import Embed from "./blocks/Embed";
 import Spotify from "./blocks/Spotify";
 import Gallery, { type GalleryImageValue } from "./blocks/Gallery";
 import ImageBlock from "./blocks/ImageBlock";
+import ImageMask from "./blocks/ImageMask";
 import Media from "./blocks/Media";
 import VideoFile from "./blocks/VideoFile";
 
@@ -192,6 +193,13 @@ function createComponents(
           />
         );
       },
+      imageMask: ({ value }) => (
+        <ImageMask
+          value={value as { image?: unknown; mask?: string }}
+          buildImageUrl={buildImageUrl}
+          dataSanity={getDataAttribute?.(getKey(value))}
+        />
+      ),
       media: ({ value }) => (
         <Media
           value={value as { media?: { asset?: { url?: string; mimeType?: string } } }}

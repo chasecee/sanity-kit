@@ -6,6 +6,12 @@ export { default as Spotify } from "./blocks/Spotify";
 export { default as Gallery } from "./blocks/Gallery";
 export type { GalleryImageValue } from "./blocks/Gallery";
 export { default as ImageBlock } from "./blocks/ImageBlock";
+export { default as ImageMask } from "./blocks/ImageMask";
+export {
+  imageMasks,
+  imageMaskOptions,
+  type ImageMaskShape,
+} from "./blocks/masks";
 export { default as Media } from "./blocks/Media";
 export { default as VideoFile } from "./blocks/VideoFile";
 export { normalizeAspectRatio, cleanMaybe, cleanResource } from "./blocks/utils";
