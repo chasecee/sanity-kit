@@ -9,6 +9,7 @@ import {
   useClient,
   useSource,
 } from "sanity";
+import { isHeic, uploadImageAsset } from "../../lib/heic";
 import { STUDIO_API_VERSION } from "../../lib/maxVideoFileSize";
 import {
   enrichVideoFromUrl,
@@ -67,7 +68,9 @@ const isVideoAsset = (mimeType?: string, filename?: string) =>
   );
 
 export const createGalleryInput = (options: GalleryInputOptions = {}) => {
-  const accept = options.accept ?? "image/*,video/mp4,video/webm,.mp4,.webm";
+  const accept =
+    options.accept ??
+    "image/*,.heic,.heif,image/heic,image/heif,video/mp4,video/webm,.mp4,.webm";
   const altFromFilename = options.altFromFilename ?? defaultAltFromFilename;
 
   function GalleryArrayFunctions(
@@ -93,7 +96,8 @@ export const createGalleryInput = (options: GalleryInputOptions = {}) => {
     const uploadFiles = async (files: File[]) => {
       if (readOnly) return;
       const media = files.filter(
-        (item) => item.type.startsWith("image/") || isVideoFile(item),
+        (item) =>
+          item.type.startsWith("image/") || isHeic(item) || isVideoFile(item),
       );
       if (!media.length) return;
 
@@ -122,14 +126,12 @@ export const createGalleryInput = (options: GalleryInputOptions = {}) => {
           }
 
           setStatus(`Uploading ${label}`);
-          const asset = await client.assets.upload("image", mediaFile, {
-            filename: mediaFile.name,
-          });
+          const asset = await uploadImageAsset(client, mediaFile);
           onItemAppend({
             _key: defaultNewKey(),
             _type: itemType.name,
             asset: { _type: "reference", _ref: asset._id },
-            alt: altFromFilename(mediaFile.name),
+            alt: altFromFilename(asset.originalFilename || mediaFile.name),
           });
         }
       } catch (error) {

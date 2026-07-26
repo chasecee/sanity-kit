@@ -66,7 +66,9 @@ export const createGallerySchemaTypes = (options: GallerySchemaOptions = {}) => 
   const input =
     options.input ??
     createGalleryInput({
-      accept: options.accept ?? "image/*,video/mp4,video/webm,.mp4,.webm",
+      accept:
+        options.accept ??
+        "image/*,.heic,.heif,image/heic,image/heif,video/mp4,video/webm,.mp4,.webm",
       altFromFilename: options.altFromFilename,
     });
 
@@ -74,7 +76,10 @@ export const createGallerySchemaTypes = (options: GallerySchemaOptions = {}) => 
     name: IMAGE_TYPE,
     title: "Gallery Image",
     type: "image",
-    options: { hotspot: true },
+    options: {
+      hotspot: true,
+      accept: "image/*,.heic,.heif,image/heic,image/heif",
+    },
     fields,
     preview: {
       select: {

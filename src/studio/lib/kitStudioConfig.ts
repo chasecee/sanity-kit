@@ -1,3 +1,5 @@
+import { createHeicAwareClient } from "./heic";
+
 export const kitStudioConfig = {
   releases: { enabled: false },
   scheduledDrafts: { enabled: false },
@@ -7,4 +9,5 @@ export const kitStudioConfig = {
   document: {
     comments: { enabled: false },
   },
+  unstable_clientFactory: createHeicAwareClient,
 } as const;

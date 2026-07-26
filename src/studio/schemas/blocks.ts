@@ -8,7 +8,10 @@ import { VideoFileInput } from "../inputs/VideoFileInput";
 
 export const imageBlock = {
   type: "image",
-  options: { hotspot: true },
+  options: {
+    hotspot: true,
+    accept: "image/*,.heic,.heif,image/heic,image/heif",
+  },
   fields: [{ name: "alt", type: "string", title: "Alt Text" }],
 };
 
