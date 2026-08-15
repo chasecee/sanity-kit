@@ -1,3 +1,4 @@
+// Preview selects images.0–5 so the preview store does not observe the whole array.
 import type { ArrayOfObjectsInputProps, ImageValue } from "sanity";
 import type React from "react";
 import { maxVideoFileSize } from "../../lib/maxVideoFileSize";
@@ -23,6 +24,16 @@ export interface GallerySchemaOptions {
 
 const IMAGE_TYPE = "galleryImage";
 const VIDEO_TYPE = "galleryVideo";
+
+function plainThumb(item: unknown) {
+  if (!item || typeof item !== "object" || Array.isArray(item)) return undefined;
+  return JSON.parse(JSON.stringify(item)) as {
+    _key?: string;
+    _type?: string;
+    asset?: { _ref?: string };
+    poster?: { asset?: { _ref?: string } };
+  };
+}
 
 const defaultFields = [
   {
@@ -180,21 +191,27 @@ export const createGallerySchemaTypes = (options: GallerySchemaOptions = {}) => 
     fields: [columnsField, imagesField],
     preview: {
       select: {
-        images: "images",
         columns: "columns",
+        t0: "images.0",
+        t1: "images.1",
+        t2: "images.2",
+        t3: "images.3",
+        t4: "images.4",
+        t5: "images.5",
       },
-      prepare: ({
-        images,
-        columns,
-      }: {
-        images?: unknown[];
-        columns?: number;
-      }) => {
-        const thumbs = Array.isArray(images) ? images.slice(0, 6) : [];
-        const count = Array.isArray(images) ? images.length : 0;
+      prepare: (sel: Record<string, unknown>) => {
+        const thumbs = [sel.t0, sel.t1, sel.t2, sel.t3, sel.t4, sel.t5].flatMap(
+          (item) => {
+            const thumb = plainThumb(item);
+            return thumb ? [thumb] : [];
+          },
+        );
+        const columns = sel.columns as number | undefined;
         return {
           title: "Gallery",
-          subtitle: `${count} items · ${columns === 0 ? "per item" : `${columns ?? 0} col`}`,
+          subtitle: `${thumbs.length === 6 ? "6+" : thumbs.length} items · ${
+            columns === 0 ? "per item" : `${columns ?? 0} col`
+          }`,
           thumbs,
         };
       },

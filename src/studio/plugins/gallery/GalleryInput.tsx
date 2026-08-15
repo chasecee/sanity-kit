@@ -3,6 +3,9 @@ import { SearchIcon } from "@sanity/icons/Search";
 import { UploadIcon } from "@sanity/icons/Upload";
 import { Button, Flex, Menu, MenuButton, MenuItem, useToast } from "@sanity/ui";
 import {
+  PatchEvent,
+  set,
+  setIfMissing,
   type ArrayInputFunctionsProps,
   type ArrayOfObjectsInputProps,
   type ImageValue,
@@ -48,10 +51,11 @@ type BrowseState = {
 const IMAGE_TYPE = "galleryImage";
 const VIDEO_TYPE = "galleryVideo";
 
-const defaultNewKey = () =>
-  typeof crypto !== "undefined" && "randomUUID" in crypto
-    ? crypto.randomUUID()
-    : Math.random().toString(36).slice(2);
+const defaultNewKey = () => Math.random().toString(36).slice(2, 12);
+
+function asPlain<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
 
 const defaultAltFromFilename: AltFromFilename = (name) => {
   const base = name.replace(/\.[^/.]+$/, "");
@@ -79,7 +83,11 @@ export const createGalleryInput = (options: GalleryInputOptions = {}) => {
       ArrayOfObjectsInputProps["schemaType"]
     >,
   ) {
-    const { readOnly, schemaType, onItemAppend } = props;
+    const { readOnly, schemaType, onChange, value } = props;
+    const onChangeRef = useRef(onChange);
+    const valueRef = useRef(value);
+    onChangeRef.current = onChange;
+    valueRef.current = value;
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [uploading, setUploading] = useState(false);
     const [status, setStatus] = useState("");
@@ -92,6 +100,13 @@ export const createGalleryInput = (options: GalleryInputOptions = {}) => {
 
     const typeByName = (name: string) =>
       schemaType.of.find((item) => item.name === name);
+
+    const appendItem = (item: Record<string, unknown>) => {
+      const next = asPlain(item) as GalleryImage;
+      onChangeRef.current(
+        PatchEvent.from([setIfMissing([]), set([...(valueRef.current ?? []), next])]),
+      );
+    };
 
     const uploadFiles = async (files: File[]) => {
       if (readOnly) return;
@@ -113,9 +128,9 @@ export const createGalleryInput = (options: GalleryInputOptions = {}) => {
           if (video) {
             setStatus(`Uploading ${label}`);
             const uploaded = await uploadVideoWithProbe(client, mediaFile);
-            onItemAppend({
+            appendItem({
               _key: defaultNewKey(),
-              _type: itemType.name,
+              _type: VIDEO_TYPE,
               asset: { _type: "reference", _ref: uploaded.assetId },
               alt: altFromFilename(mediaFile.name),
               ...(uploaded.width ? { width: uploaded.width } : {}),
@@ -127,9 +142,9 @@ export const createGalleryInput = (options: GalleryInputOptions = {}) => {
 
           setStatus(`Uploading ${label}`);
           const asset = await uploadImageAsset(client, mediaFile);
-          onItemAppend({
+          appendItem({
             _key: defaultNewKey(),
-            _type: itemType.name,
+            _type: IMAGE_TYPE,
             asset: { _type: "reference", _ref: asset._id },
             alt: altFromFilename(asset.originalFilename || mediaFile.name),
           });
@@ -168,9 +183,9 @@ export const createGalleryInput = (options: GalleryInputOptions = {}) => {
             if (!itemType) continue;
             const filename =
               asset.assetDocumentProps?.originalFilename || "Image";
-            onItemAppend({
+            appendItem({
               _key: defaultNewKey(),
-              _type: itemType.name,
+              _type: IMAGE_TYPE,
               asset: { _type: "reference", _ref: asset.value },
               alt: altFromFilename(filename),
             });
@@ -231,9 +246,9 @@ export const createGalleryInput = (options: GalleryInputOptions = {}) => {
             }
           }
 
-          onItemAppend({
+          appendItem({
             _key: defaultNewKey(),
-            _type: itemType.name,
+            _type: VIDEO_TYPE,
             asset: { _type: "reference", _ref: asset.value },
             alt: altFromFilename(filename),
             ...(width ? { width } : {}),
