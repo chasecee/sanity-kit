@@ -44,7 +44,7 @@ export default function Spotify({
         title={embedTitle}
         width="100%"
         height={height}
-        style={{ height }}
+        style={{ height, borderRadius: 12 }}
         className="embed-frame-fixed w-full border-0"
         loading="lazy"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
